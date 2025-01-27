@@ -1,0 +1,138 @@
+Script started on 2025-01-27 21:56:10+00:00 [TERM="xterm-256color" TTY="/dev/pts/4" COLUMNS="127" LINES="15"]
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork1 [0;36m([1;31mmain[0;36m) [0m$ sbcl[K[K[K[Ksn[Kbcl
+This is SBCL 1.4.3, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* ;; Question 3 - Finding the sequence of CARs and CDRs
+(setq list1 '(a b x d))          ; Define the first list
+(setq list2 '(a (b (x d))))      ; Defi; in: SETQ LIST1
+;     (SETQ LIST1 '(A B X D))
+; 
+; caught WARNING:
+;   undefined variable: LIST1
+; 
+; compilation unit finished
+;   Undefined variable:
+;     LIST1
+;   caught 1 WARNING condition
+
+(A B X D)
+* ne the second list
+(setq list3 '(((a (b (x) d))))); in: SETQ LIST2
+;     (SETQ LIST2 '(A (B (X D))))
+; 
+; caught WARNING:
+;   undefined variable: LIST2
+; 
+; compilation unit finished
+;   Undefined variable:
+;     LIST2
+;   caught 1 WARNING condition
+
+(A (B (X D)))
+*   ; Define the third list
+
+;; Find 'x' in each cas; in: SETQ LIST3
+;     (SETQ LIST3 '(((A #))))
+; 
+; caught WARNING:
+;   undefined variable: LIST3
+; 
+; compilation unit finished
+;   Undefined variable:
+;     LIST3
+;   caught 1 WARNING condition
+
+(((A (B (X) D))))
+* e
+(print (caddr list1))            ; For list1
+(pr
+X 
+X
+* int (cadar list2))            ; For list2
+(print (
+debugger invoked on a TYPE-ERROR in thread
+#<THREAD "main thread" RUNNING {9461061}>:
+  The value
+    A
+  is not of type
+    LIST
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Exit debugger, returning to top level.
+
+(CADAR (A (B (X D))))
+0] caaadar list3))          ; For list3
+; in: PRINT (CADAR LIST2)
+;     (CAAADAR LIST3)
+; 
+; caught STYLE-WARNING:
+;   undefined function: CAAADAR
+; 
+; caught WARNING:
+;   undefined variable: LIST3
+; 
+; compilation unit finished
+;   Undefined function:
+;     CAAADAR
+;   Undefined variable:
+;     LIST3
+;   caught 1 WARNING condition
+;   caught 1 STYLE-WARNING condition
+
+debugger invoked on a UNDEFINED-FUNCTION in thread
+#<THREAD "main thread" RUNNING {9461061}>:
+  The function COMMON-LISP-USER::CAAADAR is undefined.
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Reduce debugger level (to debug level 1).
+  1:         Exit debugger, returning to top level.
+
+("undefined function" (((A (B (X) D)))))
+0[2] ;; Question 4 - Constructing the lists
+;; Constructing (a b x d)
+(setq constructed1 (cons 'a (cons 'b (cons 'x (cons 'd nil)))))
+(print constructed1)
+; No debug variables for current frame: using EVAL instead of EVAL-IN-FRAME.
+; in: SETQ CONSTRUCTED1
+;     (SETQ CONSTRUCTED1 (CONS 'A (CONS 'B (CONS 'X #))))
+; 
+; caught WARNING:
+;   undefined variable: CONSTRUCTED1
+; 
+; compilation unit finished
+;   Undefined variable:
+;     CONSTRUCTED1
+;   caught 1 WARNING condition
+(A B X D)
+0[2] ; No debug variables for current frame: using EVAL instead of EVAL-IN-FRAME.
+
+(A B X D)(A B X D) 
+0[2] 
+;; Constructing (a (b (x d)))
+(setq constructed2 (cons 'a (cons (cons 'b (cons (cons 'x (cons 'd nil)) nil)) nil)))
+(print constructed2)
+
+;; Construc; No debug variables for current frame: using EVAL instead of EVAL-IN-FRAME.
+; in: SETQ CONSTRUCTED2
+;     (SETQ CONSTRUCTED2 (CONS 'A (CONS (CONS 'B #) NIL)))
+; 
+; caught WARNING:
+;   undefined variable: CONSTRUCTED2
+; 
+; compilation unit finished
+;   Undefined variable:
+;     CONSTRUCTED2
+;   caught 1 WARNING condition
+(A (B (X D)))
+0[2] ; No debug variables for current frame: using EVAL instead of EVAL-IN-FRAME.
+
+(A (B (X D)))(A (B (X D))) 

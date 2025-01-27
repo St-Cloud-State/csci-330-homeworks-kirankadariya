@@ -1,4 +1,6 @@
-Script started on 2025-01-27 21:46:22+00:00 [TERM="xterm-256color" TTY="/dev/pts/2" COLUMNS="127" LINES="10"]
+Script started on 2025-01-27 21:46:19+00:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="127" LINES="10"]
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork1 [0;36m([1;31mmain[0;36m) [0m$ script Q3and4
+Script started, file is Q3and4
 [0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork1 [0;36m([1;31mmain[0;36m) [0m$ sbcl
 This is SBCL 1.4.3, an implementation of ANSI Common Lisp.
 More information about SBCL is available at <http://www.sbcl.org/>.
@@ -542,12 +544,4 @@ restarts (invokable by number or by possibly-abbreviated name):
 ;   undefined function: CAAADAR
 ; 
 ; caught WARNING:
-;   undefined variable: LIST3
-; 
-; compilation unit finished
-;   Undefined function:
-;     CAAADAR
-;   Undefined variable:
-;     LIST3
-;   caught 1 WARNING condition
-;   caught 1 STYLE-WARNI
+;   undefined variable: LIST
