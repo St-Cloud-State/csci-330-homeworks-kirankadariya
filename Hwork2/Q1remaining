@@ -1,0 +1,205 @@
+Script started on 2025-02-04 01:16:14+00:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="127" LINES="11"]
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork2 [0;36m([1;31mmain[0;36m) [0m$ sbcl
+This is SBCL 1.4.3, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* (defun speak (x y) (list ’all ’x ’is ’y))
+; in: DEFUN SPEAK
+;     (SB-INT:NAMED-LAMBDA SPEAK
+;         (X Y)
+;       (BLOCK SPEAK (LIST ’ALL ’X ’IS ’Y)))
+; 
+; caught STYLE-WARNING:
+;   The variable X is defined but never used.
+; 
+; caught STYLE-WARNING:
+;   The variable Y is defined but never used.
+; in: DEFUN SPEAK
+;     (LIST ’ALL ’X ’IS ’Y)
+; 
+; caught WARNING:
+;   undefined variable: ’ALL
+; 
+; caught WARNING:
+;   undefined variable: ’IS
+; 
+; caught WARNING:
+;   undefined variable: ’X
+; 
+; caught WARNING:
+;   undefined variable: ’Y
+; 
+; compilation unit finished
+;   Undefined variables:
+;     ’ALL ’IS ’X ’Y
+;   caught 4 WARNING conditions
+;   caught 2 STYLE-WARNING conditions
+
+SPEAK
+* (defun speak (x y) (list 'all x 'is y))
+WARNING: redefining COMMON-LISP-USER::SPEAK in DEFUN
+
+SPEAK
+* (defun speak (x) (y) (list ’all x ’is y))
+; in: DEFUN SPEAK
+;     (LIST ’ALL X ’IS Y)
+; 
+; caught WARNING:
+;   undefined variable: Y
+
+;     (Y)
+; 
+; caught STYLE-WARNING:
+;   undefined function: Y
+
+;     (LIST ’ALL X ’IS Y)
+; 
+; caught WARNING:
+;   undefined variable: ’ALL
+; 
+; caught WARNING:
+;   undefined variable: ’IS
+; 
+; compilation unit finished
+;   Undefined function:
+;     Y
+;   Undefined variables:
+;     Y ’ALL ’IS
+;   caught 3 WARNING conditions
+;   caught 1 STYLE-WARNING condition
+WARNING: redefining COMMON-LISP-USER::SPEAK in DEFUN
+
+SPEAK
+* (defun speak (x y) (list 'all x 'is y))
+WARNING: redefining COMMON-LISP-USER::SPEAK in DEFUN
+
+SPEAK
+* (defun speak ((x) (y)) (list all ’x is ’y))
+; in: DEFUN SPEAK
+;     (SB-INT:NAMED-LAMBDA SPEAK
+;         ((X) (Y))
+;       (BLOCK SPEAK (LIST ALL ’X IS ’Y)))
+; 
+; caught ERROR:
+;   Required argument is not a symbol: (X)
+
+debugger invoked on a SB-INT:SIMPLE-PROGRAM-ERROR in thread
+#<THREAD "main thread" RUNNING {9461061}>:
+  Required argument is not a symbol: (X)
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Exit debugger, returning to top level.
+
+((LAMBDA NIL :IN SB-C::ACTUALLY-COMPILE))
+0] (defun speak (x y) (list 'all x 'is y))
+
+
+; 
+; caught STYLE-WARNING:
+;   redefining COMMON-LISP-USER::SPEAK in DEFUN
+SPEAK
+0] (defun speak ((x) (y)) (list all ’x is ’y))
+; in: DEFUN SPEAK
+;     (DEFUN SPEAK ((X) (Y)) (LIST ALL ’X IS ’Y))
+; --> PROGN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
+; ==>
+;   #'(SB-INT:NAMED-LAMBDA SPEAK
+;         ((X) (Y))
+;       (BLOCK SPEAK (LIST ALL ’X IS ’Y)))
+; 
+; caught ERROR:
+;   Required argument is not a symbol: (X)
+
+debugger invoked on a SB-INT:COMPILED-PROGRAM-ERROR in thread
+#<THREAD "main thread" RUNNING {9461061}>:
+  Execution of a form compiled with errors.
+Form:
+  #'(SB-INT:NAMED-LAMBDA SPEAK
+      ((X) (Y))
+    (BLOCK SPEAK (LIST ALL ’X IS ’Y)))
+Compile-time error:
+  Required argument is not a symbol: (X)
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Reduce debugger level (to debug level 1).
+  1:         Exit debugger, returning to top level.
+
+((LAMBDA (#:G1)) #<unused argument>)
+   source: (DEFUN SPEAK ((X) (Y)) (LIST ALL ’X IS ’Y))
+0[2] (defun speak (x y) (list 'all x 'is y))
+
+
+; 
+; caught STYLE-WARNING:
+;   redefining COMMON-LISP-USER::SPEAK in DEFUN
+SPEAK
+0[2] (list 'cons t nil)
+
+(CONS T NIL)
+0[2]  (eval (list 'cons t nil))
+
+(T)
+0[2] (eval (eval (list 'cons t nil)))
+
+
+debugger invoked on a UNDEFINED-FUNCTION in thread
+#<THREAD "main thread" RUNNING {9461061}>:
+  The function COMMON-LISP:T is undefined.
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Reduce debugger level (to debug level 2).
+  1:         Reduce debugger level (to debug level 1).
+  2:         Exit debugger, returning to top level.
+
+("undefined function")
+0[3]  (apply #'cons '(t nil))
+; No debug variables for current frame: using EVAL instead of EVAL-IN-FRAME.
+(T)
+0[3]  (eval nil)
+; No debug variables for current frame: using EVAL instead of EVAL-IN-FRAME.
+NIL
+0[3] (list 'eval nil)
+; No debug variables for current frame: using EVAL instead of EVAL-IN-FRAME.
+(EVAL NIL)
+0[3] (eval (list 'eval
+)
+(eval (list 'eval nil))
+)
+; No debug variables for current frame: using EVAL instead of EVAL-IN-FRAME.
+
+debugger invoked on a SB-INT:SIMPLE-PROGRAM-ERROR in thread
+#<THREAD "main thread" RUNNING {9461061}>:
+  invalid number of arguments: 2
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Reduce debugger level (to debug level 3).
+  1:         Reduce debugger level (to debug level 2).
+  2:         Reduce debugger level (to debug level 1).
+  3:         Exit debugger, returning to top level.
+
+(EVAL (EVAL) NIL) [external]
+0[4] (eval (list 'eval nil))
+
+NIL
+0[4] quit    (quit)
+; 
+; compilation unit aborted
+;   caught 1 fatal ERROR condition
+;   caught 2 ERROR conditions
+;   caught 2 STYLE-WARNING conditions
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork2 [0;36m([1;31mmain[0;36m) [0m$ exit
+exit
+
+Script done on 2025-02-04 01:21:47+00:00 [COMMAND_EXIT_CODE="0"]
