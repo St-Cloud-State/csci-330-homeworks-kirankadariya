@@ -1,0 +1,11 @@
+Script started on 2025-02-14 18:57:11+00:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="127" LINES="7"]
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork3 [0;36m([1;31mmain[0;36m) [0m$ g++ nonRecursiveQuicksort -o [K[K[K[K.c[[Kpp -o nonRecursiveQuicksort
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork3 [0;36m([1;31mmain[0;36m) [0m$ ./nonRecursiveQuicksort 
+Original array: 11 8 7 9 1 6 
+Sorted array: 1 6 7 8 9 11 
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork3 [0;36m([1;31mmain[0;36m) [0m$ quit
+bash: quit: command not found
+[0;32m@kirankadariya [1;31m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork3 [0;36m([1;31mmain[0;36m) [0m$ exit
+exit
+
+Script done on 2025-02-14 18:58:22+00:00 [COMMAND_EXIT_CODE="127"]
