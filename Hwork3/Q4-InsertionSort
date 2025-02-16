@@ -1,0 +1,40 @@
+Script started on 2025-02-16 19:23:19+00:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="127" LINES="16"]
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork3 [0;36m([1;31mmain[0;36m) [0m$ sbcl
+This is SBCL 1.4.3, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* (defun insert (elem sorted)
+  "Inserts ELEM into the correct position in SORTED list."
+  (if (or (null sorted) (<= elem (car sorted)))
+      (cons elem sorted)
+      (cons (car sorted) (insert elem (cdr sorted)))))
+
+(defun insertion-sort-helper (unso
+INSERT
+* rted sorted)
+  "Recursively sorts UNSORTED list by inserting elements into SORTED list."
+  (if (null unsorted)
+      sorted
+      (insertion-sort-helper (cdr unsorted) (insert (car unsorted) sorted))))
+
+(defun insertion-sort (lst)
+  "Sorts LST using 
+INSERTION-SORT-HELPER
+* insertion sort."
+  (insertion-sort-helper lst '()))
+
+;; Test the insertion sort function
+(format t "
+INSERTION-SORT
+* Sorted List: ~a~%" (insertion-sort '(11 8 7 9 1 6)))
+Sorted List: (1 6 7 8 9 11)
+NIL
+* (quit)
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork3 [0;36m([1;31mmain[0;36m) [0m$ exit
+exit
+
+Script done on 2025-02-16 19:23:45+00:00 [COMMAND_EXIT_CODE="0"]

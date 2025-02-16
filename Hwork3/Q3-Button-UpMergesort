@@ -1,0 +1,57 @@
+Script started on 2025-02-16 19:21:41+00:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="127" LINES="16"]
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork3 [0;36m([1;31mmain[0;36m) [0m$ sbc[K[K[Ksbcl
+This is SBCL 1.4.3, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* (defun pairwise-partition (lst)
+  "Partitions the list into sorted pairs."
+  (if (null lst)
+      '() ; Base case: empty list
+      (if (null (cdr lst))
+          (list (list (car lst))) ; Single element
+          (cons (list (car lst) (cadr lst)) (pairwise-partition (cddr lst)))))) ; Pair and recurse
+
+(defun merge-lists (left right)
+  "Merges two 
+PAIRWISE-PARTITION
+* sorted lists into one sorted list."
+  (cond ((null left) right) ; If left is empty, return right
+        ((null right) left) ; If right is empty, return left
+        ((<= (car left) (car right)) ; If first element of left is smaller
+         (cons (car left) (merge-lists (cdr left) right))) ; Add it to the result
+        (t (cons (car right) (merge-lists left (cdr right)))))) ; Otherwise, add first element of right
+
+(defun merge-pairs (lst)
+  "Me
+MERGE-LISTS
+* rges adjacent sorted pairs in the list."
+  (if (null lst)
+      '() ; Base case: empty list
+      (if (null (cdr lst))
+          lst ; Single list
+          (cons (merge-lists (car lst) (cadr lst)) (merge-pairs (cddr lst)))))) ; Merge and recurse
+
+(d
+MERGE-PAIRS
+* efun bottom-up-mergesort (lst)
+  "Sorts LST using bottom-up merge sort."
+  (let ((sorted (pairwise-partition lst)))
+    (loop while (> (length sorted) 1) do
+         (setf sorted (merge-pairs sorted)))
+    (car sorted)))
+
+;; Test the bottom-up merges
+BOTTOM-UP-MERGESORT
+* ort function
+(format t "Sorted List: ~a~%" (bottom-up-mergesort '(11 8 7 9 1 6)))
+Sorted List: (1 6 7 9 11 8)
+NIL
+* (quit)
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork3 [0;36m([1;31mmain[0;36m) [0m$ exit
+exit
+
+Script done on 2025-02-16 19:22:04+00:00 [COMMAND_EXIT_CODE="0"]
