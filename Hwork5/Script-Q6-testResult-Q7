@@ -1,0 +1,481 @@
+Script started on 2025-03-13 19:25:00+00:00 [TERM="xterm-256color" TTY="/dev/pts/8" COLUMNS="127" LINES="16"]
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork5 [0;36m([1;31mmain[0;36m) [0m$ sbcl
+This is SBCL 1.4.3, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* ;; ------------------------------------------------
+;; Parser Implementation
+;; ------------------------------------------------
+
+;; Function to parse the non-terminal I
+(defun parse-I (input)
+  (if (eq (first input) 'i)
+      (let ((rest (parse-E (rest input))))
+        (parse-S rest))
+      (error "Invalid input for I")))
+
+;; Function to parse th; in: DEFUN PARSE-I
+;     (PARSE-E (REST INPUT))
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-E
+
+;     (PARSE-S REST)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-S
+; 
+; compilation unit finished
+;   Undefined functions:
+;     PARSE-E PARSE-S
+;   caught 2 STYLE-WARNING conditions
+
+PARSE-I
+* e non-terminal E
+(defun parse-E (input)
+  (cond
+    ((member (first input) '(x y z w)) (parse-G input))
+    ((eq (first input) 'o) (parse-EoG input))
+    (t (error "Invalid input for E"))))
+
+;; Function to parse the non-terminal G
+(defun parse-G (inp; in: DEFUN PARSE-E
+;     (PARSE-EOG INPUT)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-EOG
+
+;     (PARSE-G INPUT)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-G
+; 
+; compilation unit finished
+;   Undefined functions:
+;     PARSE-EOG PARSE-G
+;   caught 2 STYLE-WARNING conditions
+
+PARSE-E
+* ut)
+  (case (first input)
+    (x (rest input))
+    (y (rest input))
+    (z (rest input))
+    (w (rest input))
+    (t (error "Invalid input for G"))))
+
+PARSE-G
+* 
+;; Function to parse the non-terminal S
+(defun parse-S (input)
+  (cond
+    ((eq (first input) 's) (rest input))
+    ((eq (first input) 'd) (parse-Lb (rest input)))
+    (t (error "Invalid input for S"))))
+
+;; Function to parse the non-terminal L
+(def; in: DEFUN PARSE-S
+;     (PARSE-LB (REST INPUT))
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-LB
+; 
+; compilation unit finished
+;   Undefined function:
+;     PARSE-LB
+;   caught 1 STYLE-WARNING condition
+
+PARSE-S
+* un parse-L (input)
+  (if (eq (first input) 's)
+      (parse-L-helper (rest input))
+      (error "Invalid input for L")))
+
+;; Function to parse the non; in: DEFUN PARSE-L
+;     (PARSE-L-HELPER (REST INPUT))
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-L-HELPER
+; 
+; compilation unit finished
+;   Undefined function:
+;     PARSE-L-HELPER
+;   caught 1 STYLE-WARNING condition
+
+PARSE-L
+* -terminal L'
+(defun parse-L-helper (input)
+  (if (eq (first input) 's)
+      (parse-L-helper (rest input))
+      input))
+
+;; Function to parse the non
+PARSE-L-HELPER
+* -terminal EoG
+(defun parse-EoG (input)
+  (let ((rest (parse-E (rest input))))
+    (if (eq (first rest) 'o)
+        (parse-G (rest rest))
+        (error "Invalid input for EoG"))))
+
+;; Function to pars
+PARSE-EOG
+* e the non-terminal Lb
+(defun parse-Lb (input)
+  (let ((rest (parse-L input)))
+    (if (eq (first rest) 'b)
+        (rest rest)
+        (error "Invalid input for Lb"))))
+
+;; ---------------------------
+PARSE-LB
+* ---------------------
+;; Test Cases
+;; ------------------------------------------------
+
+(defun test-parser ()
+  (format t "Testing valid strings:~%")
+  (format t "1. ixoys: ~a~%" (handler-case (parse-I '(i x o y s)) (error (e) "Error")))
+  (format t "2. ixoyowdssbes: ~a~%" (handler-case (parse-I '(i x o y o w d s s b e s)) (error (e) "Error")))
+  (format t "3. ixdssb: ~a~%" (handler-case (parse-I '(i x d s s b)) (error (e) "Error")))
+  (format t "4. iydssb: ~a~%" (handler-case (parse-I '(i y d s s b)) (error (e) "Error")))
+  (format t "5. izdssb: ~a~%" (handler-case (parse-I '(i z d s s b)) (error (e) "Error")))
+  (format t "6. iwdssb: ~a~%" (handler-case (parse-I '(i w d s s b)) (error (e) "Error")))
+  (format t "7. ixoysdssb: ~a~%" (handler-case (parse-I '(i x o y s d s s b)) (error (e) "Error")))
+
+  (format t "~%Testing invalid strings:~%")
+  (format t "1. ixoy: ~a~%" (handler-case (parse-I '(i x o y)) (error (e) "Error")))
+  (format t "2. ixdss: ~a~%" (handler-case (parse-I '(i x d s s)) (error (e) "Error")))
+  (format t "3. iyds: ~a~%" (handler-case (parse-I '(i y d s)) (error (e) "Error")))
+  (format t "4. izds: ~a~%" (handler-case (parse-I '(i z d s)) (error (e) "Error")))
+  (format t "5. iwds: ~a~%" (handler-case (parse-I '(i w d s)) (error (e) "Error")))
+  (format t "6. ixoysdss: ~a~%" (handler-case (parse-I '(i x o y s d s s)) (error (e) "Error")))
+  (format t "7. ixoyowdssbe: ~a~%" (handler-case (parse-I '(i x o y o w d s s b e)) (error (e) "Error"))))
+
+;; Run the; in: DEFUN TEST-PARSER
+;     (HANDLER-CASE (PARSE-I '(I X O Y O W D S S B E)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-69 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN66 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-69) (FUNCTION #:FUN66)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK67
+;       (SB-INT:DX-LET ((#:CELL68 #))
+;         (DECLARE (IGNORABLE #:CELL68))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG65
+;           (RETURN-FROM #:BLOCK67 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I X O Y S D S S)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-64 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN61 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-64) (FUNCTION #:FUN61)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK62
+;       (SB-INT:DX-LET ((#:CELL63 #))
+;         (DECLARE (IGNORABLE #:CELL63))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG60
+;           (RETURN-FROM #:BLOCK62 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I W D S)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-59 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN56 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-59) (FUNCTION #:FUN56)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK57
+;       (SB-INT:DX-LET ((#:CELL58 #))
+;         (DECLARE (IGNORABLE #:CELL58))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG55
+;           (RETURN-FROM #:BLOCK57 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I Z D S)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-54 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN51 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-54) (FUNCTION #:FUN51)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK52
+;       (SB-INT:DX-LET ((#:CELL53 #))
+;         (DECLARE (IGNORABLE #:CELL53))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG50
+;           (RETURN-FROM #:BLOCK52 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I Y D S)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-49 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN46 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-49) (FUNCTION #:FUN46)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK47
+;       (SB-INT:DX-LET ((#:CELL48 #))
+;         (DECLARE (IGNORABLE #:CELL48))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG45
+;           (RETURN-FROM #:BLOCK47 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I X D S S)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-44 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN41 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-44) (FUNCTION #:FUN41)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK42
+;       (SB-INT:DX-LET ((#:CELL43 #))
+;         (DECLARE (IGNORABLE #:CELL43))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG40
+;           (RETURN-FROM #:BLOCK42 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+ test
+(test-parser)
+
+
+
+;     (HANDLER-CASE (PARSE-I '(I X O Y)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-39 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN36 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-39) (FUNCTION #:FUN36)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK37
+;       (SB-INT:DX-LET ((#:CELL38 #))
+;         (DECLARE (IGNORABLE #:CELL38))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG35
+;           (RETURN-FROM #:BLOCK37 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I X O Y S D S S B)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-34 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN31 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-34) (FUNCTION #:FUN31)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK32
+;       (SB-INT:DX-LET ((#:CELL33 #))
+;         (DECLARE (IGNORABLE #:CELL33))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG30
+;           (RETURN-FROM #:BLOCK32 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I W D S S B)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-29 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN26 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-29) (FUNCTION #:FUN26)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK27
+;       (SB-INT:DX-LET ((#:CELL28 #))
+;         (DECLARE (IGNORABLE #:CELL28))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG25
+;           (RETURN-FROM #:BLOCK27 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I Z D S S B)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-24 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN21 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-24) (FUNCTION #:FUN21)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK22
+;       (SB-INT:DX-LET ((#:CELL23 #))
+;         (DECLARE (IGNORABLE #:CELL23))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG20
+;           (RETURN-FROM #:BLOCK22 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I Y D S S B)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-19 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN16 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-19) (FUNCTION #:FUN16)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK17
+;       (SB-INT:DX-LET ((#:CELL18 #))
+;         (DECLARE (IGNORABLE #:CELL18))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG15
+;           (RETURN-FROM #:BLOCK17 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I X D S S B)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-14 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN11 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-14) (FUNCTION #:FUN11)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK12
+;       (SB-INT:DX-LET ((#:CELL13 #))
+;         (DECLARE (IGNORABLE #:CELL13))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG10
+;           (RETURN-FROM #:BLOCK12 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I X O Y O W D S S B E S)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-9 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN6 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-9) (FUNCTION #:FUN6)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK7
+;       (SB-INT:DX-LET ((#:CELL8 #))
+;         (DECLARE (IGNORABLE #:CELL8))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG5
+;           (RETURN-FROM #:BLOCK7 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+
+;     (HANDLER-CASE (PARSE-I '(I X O Y S)) (ERROR (E) "Error"))
+; --> SB-INT:DX-FLET 
+; ==>
+;   (FLET ((#:FORM-FUN-4 ()
+;            (MULTIPLE-VALUE-PROG1 (PARSE-I '#) (SB-KERNEL:FLOAT-WAIT)))
+;          (#:FUN1 (E)
+;            "Error"))
+;     (DECLARE
+;      (SB-INT:TRULY-DYNAMIC-EXTENT (FUNCTION #:FORM-FUN-4) (FUNCTION #:FUN1)))
+;     (DECLARE (OPTIMIZE (SB-C::CHECK-TAG-EXISTENCE 0)))
+;     (BLOCK #:BLOCK2
+;       (SB-INT:DX-LET ((#:CELL3 #))
+;         (DECLARE (IGNORABLE #:CELL3))
+;         (TAGBODY
+;           (SB-IMPL::%HANDLER-BIND # #)
+;          #:TAG0
+;           (RETURN-FROM #:BLOCK2 #)))))
+; 
+; caught STYLE-WARNING:
+;   The variable E is defined but never used.
+; 
+; compilation unit finished
+;   caught 14 STYLE-WARNING conditions
+
+TEST-PARSER
+* Testing valid strings:
+1. ixoys: Error
+2. ixoyowdssbes: Error
+3. ixdssb: NIL
+4. iydssb: NIL
+5. izdssb: NIL
+6. iwdssb: NIL
+7. ixoysdssb: Error
+
+Testing invalid strings:
+1. ixoy: Error
+2. ixdss: Error
+3. iyds: Error
+4. izds: Error
+5. iwds: Error
+6. ixoysdss: Error
+7. ixoyowdssbe: Error
+NIL
+* (quit)
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork5 [0;36m([1;31mmain[0;36m) [0m$ [K[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork5 [0;36m([1;31mmain[0;36m) [0m$ [K[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork5 [0;36m([1;31mmain[0;36m) [0m$ [K[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork5 [0;36m([1;31mmain[0;36m) [0m$ [K[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork5 [0;36m([1;31mmain[0;36m) [0m$ [K[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork5 [0;36m([1;31mmain[0;36m) [0m$ add git [K[K[K[K[K[K[K[Kgit add
