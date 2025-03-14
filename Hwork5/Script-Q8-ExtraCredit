@@ -1,0 +1,250 @@
+Script started on 2025-03-14 19:33:31+00:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="127" LINES="15"]
+[0;32m@kirankadariya [0m➜ [1;34m/workspaces/csci-330-homeworks-kirankadariya/Hwork5 [0;36m([1;31mmain[0;36m) [0m$ sbcl
+This is SBCL 1.4.3, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* ;; ---------------------------------------------
+;; Simple Parser Implementation with Error Handling
+;; ---------------------------------------------
+
+;; Parses the 'I' production rule (must start with 'i')
+(defun parse-I (input)
+  "Parses an input list starting with 'i'."
+  (if (null input)
+      (progn
+        (format t "Error in parse-I: Unexpected end of input (EOF)~%")
+        nil)
+      (if (eq (first input) 'i)
+          (parse-ES (rest input))  ;; Continue parsing after 'i'
+          (progn
+            (format t "Error in parse-I: Expected 'i' but found ~a~%" (first input))
+            nil))))
+
+
+;; Parses the 'ES' production rule
+(defun parse-ES (input)
+  "Parses the ES production ru; in: DEFUN PARSE-I
+;     (PARSE-ES (REST INPUT))
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-ES
+; 
+; compilation unit finished
+;   Undefined function:
+;     PARSE-ES
+;   caught 1 STYLE-WARNING condition
+
+PARSE-I
+* le."
+  (if (null input)
+      (progn
+        (format t "Error in parse-ES: Unexpected end of input (EOF)~%")
+        nil)
+      (parse-E input)))  ;; Calls parse-E next
+
+
+;; Parses the 'E' production ; in: DEFUN PARSE-ES
+;     (PARSE-E INPUT)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-E
+; 
+; compilation unit finished
+;   Undefined function:
+;     PARSE-E
+;   caught 1 STYLE-WARNING condition
+
+PARSE-ES
+* rule (expecting 'x', 'y', 'z', 'w' or 'o')
+(defun parse-E (input)
+  "Parses the E production rule: expects 'x', 'y', 'z', 'w', or 'o'."
+  (if (null input)
+      (progn
+        (format t "Error in parse-E: Unexpected end of input (EOF)~%")
+        nil)
+      (cond
+        ((member (first input) '(x y z w)) (parse-G (rest input)))  ;; Call parse-G if valid symbol
+        ((eq (first input) 'o) (parse-EoG (rest input)))  ;; Special case for 'o'
+        (t (progn
+             (format t "Error in parse-E: Expected 'x', 'y', 'z', 'w', or 'o' but found ~a~%" (first input))
+             nil)))))
+
+
+;; ; in: DEFUN PARSE-E
+;     (PARSE-EOG (REST INPUT))
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-EOG
+
+;     (PARSE-G (REST INPUT))
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-G
+; 
+; compilation unit finished
+;   Undefined functions:
+;     PARSE-EOG PARSE-G
+;   caught 2 STYLE-WARNING conditions
+
+PARSE-E
+* Parses the 'G' production rule (expecting 'x', 'y', 'z', or 'w')
+(defun parse-G (input)
+  "Parses the G production rule: expects 'x', 'y', 'z', or 'w'."
+  (if (null input)
+      (progn
+        (format t "Error in parse-G: Unexpected end of input (EOF)~%")
+        nil)
+      (case (first input)
+        ((x y z w) (parse-S (rest input)))  ;; Call parse-S after 'x', 'y', 'z', or 'w'
+        (t (progn
+             (format t "Error in parse-G: Expected 'x', 'y', 'z', or 'w' but found ~a~%" (first input))
+             nil)))))
+
+
+;; Parses the 'S' pro; in: DEFUN PARSE-G
+;     (PARSE-S (REST INPUT))
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-S
+; 
+; compilation unit finished
+;   Undefined function:
+;     PARSE-S
+;   caught 1 STYLE-WARNING condition
+
+PARSE-G
+* duction rule (expecting 's' or 'd')
+(defun parse-S (input)
+  "Parses the S production rule: expects 's' or 'd'."
+  (if (null input)
+      (progn
+        (format t "Error in parse-S: Unexpected end of input (EOF)~%")
+        nil)
+      (cond
+        ((eq (first input) 's) (rest input))  ;; If 's', return the remaining input
+        ((eq (first input) 'd) (parse-Lb (rest input)))  ;; If 'd', parse-Lb must follow
+        (t (progn
+             (format t "Error in parse-S: Expected 's' or 'd' but found ~a~%" (first input))
+             nil)))))
+
+
+;; in: DEFUN PARSE-S
+;     (PARSE-LB (REST INPUT))
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-LB
+; 
+; compilation unit finished
+; Parses the 'Lb' production rule (expecting 's' s;   Undefined function:
+;     PARSE-LB
+;   caught 1 STYLE-WARNING condition
+
+PARSE-S
+* equence followed by 'b')
+(defun parse-Lb (input)
+  "Parses the Lb production rule: expects 's' sequence followed by 'b'."
+  (if (null input)
+      (progn
+        (format t "Error in parse-Lb: Unexpected end of input (EOF)~%")
+        nil)
+      (let ((rest (parse-L input)))  ;; Call parse-L to parse the 's' sequence
+        (if (and rest (not (null rest)) (eq (first rest) 'b))
+            (rest rest)  ;; Successfully parsed 'b', return remaining input
+            (progn
+              (format t "Error in parse-Lb: Expected 'b' but found ~a~%" (if rest (first rest) "EOF"))
+              nil)))))
+
+
+;; Parses the 'L' production rule (expecting on; in: DEFUN PARSE-LB
+;     (PARSE-L INPUT)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-L
+; 
+; compilation unit finished
+;   Undefined function:
+;     PARSE-L
+;   caught 1 STYLE-WARNING condition
+
+PARSE-LB
+* e or more 's')
+(defun parse-L (input)
+  "Parses the L production rule: expects one or more 's'."
+  (if (null input)
+      (progn
+        (format t "Error in parse-L: Unexpected end of input (EOF)~%")
+        nil)
+      (if (eq (first input) 's)
+          (parse-L-prime (rest input))  ;; Continue parsing the sequence of 's'
+          (progn
+            (format t "Error in parse-L: Expected 's' but found ~a~%" (first input))
+            nil)))))
+
+
+; in: DEFUN PARSE-L
+;     (PARSE-L-PRIME (REST INPUT))
+; 
+; caught STYLE-WARNING:
+;   undefined function: PARSE-L-PRIME
+; 
+; compilation unit finished
+;   Undefined function:
+;     PARSE-L-PRIME
+;   caught 1 STYLE-WARNING condition
+
+PARSE-L
+* 
+debugger invoked on a SB-INT:SIMPLE-READER-ERROR in thread
+#<THREAD "main thread" RUNNING {9461061}>:
+  unmatched close parenthesis
+
+    Stream: #<SYNONYM-STREAM :SYMBOL SB-SYS:*STDIN* {91051F1}>
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Exit debugger, returning to top level.
+
+(SB-IMPL::READ-RIGHT-PAREN #<SYNONYM-STREAM :SYMBOL SB-SYS:*STDIN* {91051F1}> #<unused argument>)
+0] ;; Parses additional 's' in the L production rule
+(defun parse-L-prime (input)
+  "Parses additional 's' in the L production rule."
+  (if (null input)
+      nil
+      (if (eq (first input) 's)
+          (parse-L-prime (rest input))  ;; Recursively parse more 's'
+          input)))  ;; Return remaining input if no more 's'
+
+
+;; Parses the 'EoG' produ
+PARSE-L-PRIME
+0] ction rule (expecting 'o' in the correct position)
+(defun parse-EoG (input)
+  "Parses the EoG production rule: expects 'o' in the correct position."
+  (if (null input)
+      (progn
+        (format t "Error in parse-EoG: Unexpected end of input (EOF)~%")
+        nil)
+      (let ((rest (parse-E input)))  ;; Call parse-E first
+        (if (and rest (not (null rest)) (eq (first rest) 'o))
+            (parse-G (rest rest))  ;; Continue parsing if 'o' is found
+            (progn
+              (format t "Error in parse-EoG: Expected 'o' but found ~a~%" (if rest (first rest) "EOF"))
+              nil)))))
+
+
+;; ----------------------------------------
+PARSE-EOG
+0] --------
+;; Test Cases
+;; ------------------------------------------------
+
+(defun test-parser ()
+  "Runs test cases for the parser."
+  (format t "Testing valid strings:~%")
+  (format t "1. ixoys: ~a~%" (parse-I '(i x o y s)))  ;; Should return remaining input after valid parse
+  (format t "2. ixoyowdssbes: ~a~%" (parse-I '(i x o y o w d s s b e s)))  ;; Should return remaining inpu
